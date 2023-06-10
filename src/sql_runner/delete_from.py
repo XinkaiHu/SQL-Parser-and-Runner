@@ -1,6 +1,4 @@
-def delete_from(
-    database_name: str, table_name: str, conditions: tuple | None = None
-):
+def delete_from(database_name: str, table_name: str, conditions: tuple | None = None):
     import os
     import pandas as pd
 

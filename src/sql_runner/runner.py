@@ -8,19 +8,36 @@ def run_sql(database_name: str, type, args):
 
     if type == SQLType.CREATE:
         table_name, attributes, primary_key = args
-        df = create_table(database_name=database_name, table_name=table_name, attributes=attributes, primary_key=primary_key)
+        df = create_table(
+            database_name=database_name,
+            table_name=table_name,
+            attributes=attributes,
+            primary_key=primary_key,
+        )
     elif type == SQLType.INSERT:
         table_name, attributes, values = args
-        df = insert_into(database_name=database_name, table_name=table_name, attributes=attributes, values=values)
+        df = insert_into(
+            database_name=database_name,
+            table_name=table_name,
+            attributes=attributes,
+            values=values,
+        )
     elif type == SQLType.DELETE:
         table_name, conditions = args
-        df = delete_from(database_name=database_name, table_name=table_name, conditions=conditions)
+        df = delete_from(
+            database_name=database_name, table_name=table_name, conditions=conditions
+        )
     elif type == SQLType.DROP:
         table_name = args
         df = drop_table(database_name=database_name, table_name=table_name)
     elif type == SQLType.SELECT:
         table_name, attributes, conditions = args
-        df = my_select(database_name=database_name, table_name=table_name, attributes=attributes, conditions=conditions)
+        df = my_select(
+            database_name=database_name,
+            table_name=table_name,
+            attributes=attributes,
+            conditions=conditions,
+        )
     else:
         raise ValueError("Invalid SQL type.")
     return df
