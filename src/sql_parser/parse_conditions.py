@@ -1,7 +1,11 @@
 def parse_conditions(conditions: str) -> tuple:
     def parse_B(operator: str, B: str):
         if B.isnumeric():
-            B = float(B)
+            if "." in B:
+                B = float(B)
+            else:
+                B = int(B)
+
         if operator == "!=":
             return lambda x: x != B
         elif operator == ">":

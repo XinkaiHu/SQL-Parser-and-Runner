@@ -31,12 +31,13 @@ def run_sql(database_name: str, type, args):
         table_name = args
         df = drop_table(database_name=database_name, table_name=table_name)
     elif type == SQLType.SELECT:
-        table_name, attributes, conditions = args
+        table_name, attributes, conditions, mode = args
         df = my_select(
             database_name=database_name,
             table_name=table_name,
             attributes=attributes,
             conditions=conditions,
+            mode=mode,
         )
     else:
         raise ValueError("Invalid SQL type.")

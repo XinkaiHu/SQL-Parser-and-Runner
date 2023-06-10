@@ -7,5 +7,5 @@ def parse_create_table(sql: str) -> tuple:
     attributes, primary_key = others.split("primary")
     attributes = attributes.split(",")[:-1]
     attributes = [attribute.split()[0] for attribute in attributes]
-    primary_key = primary_key.strip()[3:].strip()[:-1].strip()
+    primary_key = primary_key.strip()[3:].strip()[1:-1].strip()[:-1].strip()
     return table_name, attributes, primary_key
