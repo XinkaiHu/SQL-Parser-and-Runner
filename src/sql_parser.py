@@ -1,31 +1,21 @@
-import re
+def parse_select(sql: str) -> tuple:
+    sql = sql.lower().strip()[6:]
+    if sql.endswith(";"):
+        sql = sql[:-1]
+    if sql.find("where"):
+        sql, conditions = sql.split("where")
+        conditions = conditions.strip()
+    else:
+        conditions = None
+    attributes, tables = sql.strip().split("from")
+    attributes = attributes.strip().split(",")
+    tables = tables.strip().split(",")
+    attributes = [attribute.strip() for attribute in attributes]
+    tables = [table.strip() for table in tables]
+    return tables, attributes, conditions
+
+print(parse_select("select * from table where a > 0;"))
 
 
-class Predication:
-
-    attribute: str | None = None
-    operator: str | None = None
-    operand: str | None = None
-
-    def __init__(self, expression: str):
-
-        def match_operator(expression, operator):
-            op_pos = expression.find(operator)
-            if op_pos != -1:
-                groups = expression.split(operator)
-                self.attribute = groups[0].strip()
-                self.operator = operator
-                self.operand = groups[-1].strip()
-                print(self.attribute, self.operator, self.operand)
-                return True
-            else:
-                return False
-
-        operators = ["<>", "!=", "==", "<=", ">=", "=", "<", ">"]
-        for operator in operators:
-            if match_operator(expression=expression, operator=operator):
-                break
-        else:
-            raise SyntaxError("No operator in expression {}".format(expression))
-
-Predication("a <> 1")
+def parse_insert_into(sql: str) -> tuple:
+    sql = sql.lower().strip()
