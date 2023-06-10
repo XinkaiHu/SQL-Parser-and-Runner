@@ -1,10 +1,7 @@
-import os
-import pandas as pd
+def init_meta(database_name: str) -> None:
+    import os
+    import pandas as pd
 
-from sql_runner import SQLRunner
-
-
-def init_meta(sql_runner: SQLRunner) -> None:
     meta = {
         "TABLE_NAME": "__META",
         "ATTRIBUTES": ",".join(["TABLE_NAME", "ATTRIBUTES", "PRIMARY_KEY"]),
@@ -12,5 +9,5 @@ def init_meta(sql_runner: SQLRunner) -> None:
     }
     df = pd.DataFrame(data=meta, index=["__META"])
 
-    meta_path = os.path.join(sql_runner.database, "__META.csv")
+    meta_path = os.path.join(database_name, "__META.csv")
     df.to_csv(path_or_buf=meta_path)

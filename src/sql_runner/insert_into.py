@@ -1,15 +1,13 @@
-import os
-import pandas as pd
-
-from sql_runner import SQLRunner
-from select import select
-
-
 def insert_into(
-    sql_runner: SQLRunner, table_name: str, attributes: list[str], values: list
+    database_name: str, table_name: str, attributes: list[str], values: list
 ):
-    selected = select(
-        sql_runner=sql_runner,
+    import os
+    import pandas as pd
+
+    from sql_runner.my_select import my_select
+
+    selected = my_select(
+        database_name=database_name,
         table_name="__META",
         attributes=["PRIMARY_KEY"],
         conditions=("TABLE_NAME", lambda x: x == table_name),
@@ -20,8 +18,8 @@ def insert_into(
     if primary_key not in attributes:
         raise ValueError("Cannot insert without primary key {}.".format(primary_key))
     primary_key_value = values[attributes.index(primary_key)]
-    if not select(
-        sql_runner=sql_runner,
+    if not my_select(
+        database_name=database_name,
         table_name=table_name,
         attributes=[primary_key],
         conditions=(primary_key, lambda x: x == primary_key_value),
@@ -32,7 +30,8 @@ def insert_into(
         inserted[attribute] = value
     df = pd.DataFrame(data=inserted, columns=attributes, index=[primary_key_value])
 
-    path = os.path.join(sql_runner.database, table_name + ".csv")
+    path = os.path.join(database_name, table_name + ".csv")
     old = pd.read_csv(filepath_or_buffer=path, index_col=0)
     new = pd.concat(objs=[old, df])
     new.to_csv(path_or_buf=path)
+    return new

@@ -51,21 +51,15 @@ def merge_join(
         right = right.iloc[right_indices].drop(columns=attributes)
         for column in right:
             left[column] = right[column]
-        print("============= MERGE JOIN =============")
-        print(left)
         return left
     elif mode == JoinMode.right_outer_join:
         left = left.iloc[left_indices]
         right = right.iloc[right_indices].drop(columns=attributes)
         for column in left:
             right[column] = left[column]
-        print("============= MERGE JOIN =============")
-        print(right)
         return right
     else:
         left = left.iloc[left_indices]
         right = right.iloc[right_indices].drop(columns=attributes)
         out = pd.concat(objs=[left, right], axis=1)
-        print("============= MERGE JOIN =============")
-        print(out)
         return out
