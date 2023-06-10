@@ -13,6 +13,7 @@ def my_select(
 
     if len(table_name) == 1:
         table_name = table_name[0]
+
     if isinstance(table_name, str):
         path = os.path.join(database_name, table_name + ".csv")
         df = pd.read_csv(filepath_or_buffer=path, index_col=0)
@@ -30,7 +31,6 @@ def my_select(
 
     elif len(table_name) == 2:
         from sql_runner.merge_join import merge_join
-        # from merge_join import merge_join
 
         left_path = os.path.join(database_name, table_name[0] + ".csv")
         left_df = pd.read_csv(filepath_or_buffer=left_path, index_col=0)
@@ -60,5 +60,6 @@ def my_select(
         right_df = my_select(database_name=database_name, table_name=table_name[1], attributes=right_attributes, conditions=conditions)
         df = merge_join(left=left_df, right=right_df, attributes=join_attributes, mode=mode)
         return df
+
     else:
         raise ValueError("Unsupported.")

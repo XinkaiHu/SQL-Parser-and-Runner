@@ -46,6 +46,7 @@ def merge_join(
             if mode == JoinMode.right_outer_join or mode == JoinMode.full_outer_join:
                 right_indices.append(right_i)
             right_i += 1
+
     if mode == JoinMode.left_outer_join or mode == JoinMode.inner_join:
         left = left.iloc[left_indices]
         right = right.iloc[right_indices].drop(columns=attributes)

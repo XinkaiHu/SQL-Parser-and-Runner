@@ -14,6 +14,7 @@ def run_sql(database_name: str, type, args):
             attributes=attributes,
             primary_key=primary_key,
         )
+
     elif type == SQLType.INSERT:
         table_name, attributes, values = args
         df = insert_into(
@@ -22,14 +23,17 @@ def run_sql(database_name: str, type, args):
             attributes=attributes,
             values=values,
         )
+
     elif type == SQLType.DELETE:
         table_name, conditions = args
         df = delete_from(
             database_name=database_name, table_name=table_name, conditions=conditions
         )
+
     elif type == SQLType.DROP:
         table_name = args
         df = drop_table(database_name=database_name, table_name=table_name)
+
     elif type == SQLType.SELECT:
         table_name, attributes, conditions, mode = args
         df = my_select(
@@ -39,6 +43,7 @@ def run_sql(database_name: str, type, args):
             conditions=conditions,
             mode=mode,
         )
+
     else:
         raise ValueError("Invalid SQL type.")
     return df
